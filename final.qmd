@@ -1,0 +1,483 @@
+---
+title: "Final Project PM566"
+format: html
+editor: visual
+---
+
+## Homelessness in Los Angeles, Calfiornia (2023)
+
+Understanding the demographics of homelessness in Los Angeles is crucial for specialized interventions and equitable resource allocation. It allows policymakers to create solutions to specific needs, especially for vulnerable populations. Beyond policy considerations, this understanding fosters empathy and informs compassionate decision-making, contributing to holistic and sustainable efforts to eradicate homelessness in the Los Angeles County.
+
+The 2023 dataset from LAHSA exclusively focuses on sheltered individuals in Los Angeles County, comprising 10,000 to 14,000 records from the Homeless Management Information System (HMIS). Distinct patterns in the sheltered population, including larger shares of women, children, and newly homeless individuals, are revealed. Presented in household and individual formats, UCLA's Paul Beeman has standardized the records for enhanced consistency. The dataset, available in its original, de-identified form, along with a questionnaire and standardized version codebook, provides a focused resource for exploring the attributes and experiences of sheltered individuals during 2023.
+
+Data Set can be found: <https://economicrt.org/publication/los-angeles-county-homeless-count-data-library/>
+
+### Research Questions:
+
+\
+The research questions aim to explore the intersection of domestic abuse and substance abuse, stratified by age, race,gender, and sexual orientation. By examining age-specific trends, racial variations, and gender variations, we seek to inform targeted interventions that address the unique challenges faced by different subpopulations. This research is essential for the development of inclusive support systems at the intersection of domestic and substance abuse.\
+\
+\
+**Domestic Abuse and Homelessness:**
+
+How are differences in age, race, sexual orientation, and gender dynamics linked to variations in experiences of domestic abuse among sheltered individuals in Los Angeles County, highlighting potential disparities?
+
+**Substance Abuse and Homelessness:**
+
+How are differences in age, race, sexual orientation, and gender dynamics linked to variations in experiences of substance abuse among sheltered individuals in Los Angeles County, highlighting potential disparities?
+
+**Substance Abuse and Domestic Abuse:**
+
+How does the presence of substance abuse correlate with experiences of domestic abuse among sheltered individuals in Los Angeles County? Additionally, are there variations in this relationship based on demographic factors such as age, race, sexual orientation, and gender?
+
+### Pre-Data Processing:
+
+Initially, the dataset was loaded into Excel. The dataset contained +1,000 columns. The essential columns were selected for further analysis. The condensed dataset was imported into R columns were clarified, variables were recoded, and dataset merging was done.
+
+<https://hub.arcgis.com/datasets/e9134f735c0c473d8156f4703a687ce9/explore?location=33.954160%2C-118.298576%2C9.56>
+
+```{r}
+
+#Import Library
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(scales)
+
+#Import Data 
+Sheltered_Individuals <- read_csv("~/Desktop/2023 Homeless Data /[WORKING]2023-HMIS-Records-of-Sheltered-Individuals.csv")
+head(Sheltered_Individuals)
+
+
+LA_County_Service_Planning_Area <- read_csv("~/Desktop/2023 Homeless Data /LA_County_Service_Planning_Area_(2012).csv")
+head(LA_County_Service_Planning_Area)
+```
+
+Data is not clean, so I will filter.
+
+### Data Cleaning
+
+First Data Set: Sheltered Homelessness Data
+
+```{r}
+LA_County_Service_Planning_Area <- LA_County_Service_Planning_Area %>%
+  select(SPA_NAME, ABBV, Shape_Length, Shape_Area)
+```
+
+Second Data Set: SPA
+
+```{r}
+# MALE
+#unique(Sheltered_Individuals$male)
+Sheltered_Individuals$male <- ifelse(Sheltered_Individuals$male == "0.No", 0, ifelse(Sheltered_Individuals$male == "1.Yes", 1,Sheltered_Individuals$male))
+
+#hhold_type
+# unique(Sheltered_Individuals$hhold_type)
+Sheltered_Individuals$hhold_type <- ifelse(Sheltered_Individuals$hhold_type == "2.HHs w/o children", "HHs w/o children", ifelse(Sheltered_Individuals$hhold_type == "1.HH with 1+ child", "HH with 1+ child", ifelse(Sheltered_Individuals$hhold_type == "3.HHs w/ only children", "HHs w/ only children", Sheltered_Individuals$hhold_type)))
+
+
+```
+
+Recoding Variables:
+
+```{r}
+
+
+
+#Domestic Violence 
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  mutate(domViol = recode(
+    domViol,
+    "0.No" = "No",
+    "1.Yes" = "Yes",
+    ".N - NULL" = NA_character_,
+    ".C - safety concern or not collected" = NA_character_,
+    ".R - refused" = NA_character_,
+    ".D - dont know" = NA_character_
+  ))
+
+
+#subsAbuse_typr
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  mutate(subsAbuse_type = recode(
+    subsAbuse_type,
+    "0.None" = "None",
+    "1.Alcohol" = "Alcohol",
+    "2.Drugs" = "Drugs",
+    "3.Alcohol + drugs" = "Both",
+    ".N - NULL" = NA_character_,
+    ".C - not collected" = NA_character_,
+    ".R - refused" = NA_character_,
+    ".D - dont know" = NA_character_
+  ))
+#SPA
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  mutate(SPA = recode(
+    SPA,
+    "South" = "South",
+    "South Bay" = "South Bay",
+    "San Fernando Valley" = "San Fernando",
+    "San Gabriel Valley" = "San Gabriel",
+    "Metro (excl. Skid Row and Hollywood)" = "Metro",
+    "East" = "East",
+    "West (excl. Venice)" = "West",
+    "Antelope Valley" = "Antelope Valley"
+  ))
+
+
+```
+
+```{r}
+
+#hispanic
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  mutate(hispanic = recode(
+    hispanic,
+    "0.No" = "No",
+    "1.Yes" = "Yes",
+    ".C - safety concern or not collected" = NA_character_,
+    ".D - dont know" = NA_character_,
+    ".R - refused" = NA_character_,
+    ".M - blank" = NA_character_
+  ))
+
+#Race 
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  mutate(race_nofa = recode(
+    race_nofa,
+    "1.White" = "Caucasian/White",
+    "2.Black/Afr Amer" = "African/African American/Black",
+    "3.Asian" = "Asian",
+    "4.Amer Ind / AK Native" = "Indigenous/Native American/American Indian/First Nations",
+    "5.Native HI/Pac Isl" = "Pacific Islander",
+    "6.Multiple races" = "Two or more races",
+    ".C - not collected" =NA_character_,
+    ".D - dont know" = NA_character_,
+    ".R - refused" = NA_character_,
+    ".N - NULL" =NA_character_,
+    ".X - other value" = "Other"
+  ))
+
+
+```
+
+```{r}
+#transgender
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  mutate(transgender = recode(
+    transgender,
+    "0.No" = "No",
+    "1.Yes" = "Yes"
+  ))
+
+#non_singular
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  mutate(non_singular = recode(
+    non_singular,
+    "0.No" = "No",
+    "1.Yes" = "Yes"
+  ))
+
+#straight
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  mutate(straight = recode(
+    straight,
+    "0.No" = "No",
+    "1.Yes" = "Yes"
+  ))
+
+#gay
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  mutate(gay = recode(
+    gay,
+    "0.No" = "No",
+    "1.Yes" = "Yes"
+  ))
+
+#bisexual
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  mutate(bisexual = recode(
+    bisexual,
+    "0.No" = "No",
+    "1.Yes" = "Yes"))
+
+```
+
+```{r}
+Sheltered_Individuals <- Sheltered_Individuals %>%
+  rename("SPA_NAME" = "SPA")
+```
+
+```{r}
+
+#unique(Sheltered_Individuals$SPA_NAME)
+#unique(LA_County_Service_Planning_Area$SPA_NAME)
+
+merged_data <- left_join(Sheltered_Individuals, LA_County_Service_Planning_Area, by = "SPA_NAME")
+
+merged_data <- merged_data %>%
+  select(-wt_spa, -ABBV, -city_name, -flee_viol, -flee_dv_hmls, -alcohol_yn, -drugs_yn,-n_chronic,-subsAbuse_dur, -n_vet, -hhold_type, -chronCond, -hiv, -physical_yn)
+
+```
+
+The codebook provides a comprehensive overview of the 2023 dataset from LAHSA, focusing exclusively on sheltered individuals in Los Angeles County, with 19 variables capturing demographic and contextual information.
+
+```{r}
+
+variable_names <- c(
+  "EnrollmentID_a", "hhid_a", "n_hhmem", "domViol",
+  "subsAbuse_type", "age_yrs", "hispanic", "race_nofa",
+  "SPA_NAME", "male", "transgender", "non_singular", "straight", "gay",
+  "bisexual", "age_catb", "Shape_Length", "Shape_Area"
+)
+
+# Define variable descriptions
+variable_descriptions <- c(
+  "Unique identifier for enrollment",
+  "Unique identifier for household",
+  "Number of household members",
+  "Indicator for domestic violence",
+  "Type of substance abuse",
+  "Age in years",
+  "Indicator for Hispanic ethnicity",
+  "Race or ethnicity",
+  "Service Planning Area name",
+  "Indicator for male gender",
+  "Indicator for transgender identity",
+  "Indicator for non-singular gender identity",
+  "Indicator for straight sexual orientation",
+  "Indicator for gay sexual orientation",
+  "Indicator for bisexual sexual orientation",
+  "Age category",
+  " SPA ShapeLength",
+  "SPA Shape Area"
+)
+
+codebook <- data.frame(
+  Variable = variable_names,
+  Description = variable_descriptions)
+
+print(codebook)
+```
+
+There are 19 columns and 15674 observations.
+
+```{r}
+dum<-dim(merged_data)
+
+cat("There are 19 columns and 15674 observations.")
+```
+
+In the dataset, each record is uniquely identified by the **`Enrollment_ID`**, representing individual enrollments. Meanwhile, the **`hhid_a`** field serves as the unique identifier for each household, linking together multiple records associated with the same household.
+
+```{r}
+#str(merged_data)
+```
+
+### Data Exploration:
+
+#### General Data Trends
+
+\[Insert Description\]
+
+**What is the distribution of gender?**
+
+```{r}
+
+ggplot(merged_data, aes(x = factor(male), fill = male)) +
+  geom_bar(color = "black", size = 0.7) +  # Specify the border color here
+  geom_text(stat = 'count', aes(label = paste0(percent(..count../sum(..count..), accuracy = 0.1))),
+            position = position_stack(vjust = 0.5), size = 4, color = "black") +
+  labs(title = "Distribution of Gender", x = "Gender", y = "Count") +
+  scale_fill_manual(values = c("lightgreen", "lightgrey"), labels = c("Female", "Male"), name = "Gender") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), plot.title = element_text(size = 16, face = "bold")) +
+  labs(fill = "Gender") +
+  scale_x_discrete(labels = c("Female", "Male"))
+
+```
+
+The gender distribution indicates that 43.3% of respondents identify as female, 52.4% as male, and 4.3% did not provide a response.
+
+**How many families reported their data?**
+
+```{r}
+unique_hhid_a_count <- length(unique(merged_data$hhid_a))
+cat("Exactly", unique_hhid_a_count, "families reported their data.")
+```
+
+Exactly 13379 families reported their data.
+
+**How many households of 1 person reported their data?**
+
+```{r}
+#Filtered HHMEM==1 
+one_person_households <- merged_data %>%
+  filter(n_hhmem == 1)
+count_one_person_households <- nrow(one_person_households)
+
+cat("There are", count_one_person_households, "reported households that have 1 person.")
+
+```
+
+**What is the average household size?**
+
+```{r}
+
+household <- merged_data %>%
+  group_by(hhid_a) %>%
+  summarize(max_n_hnmem = max(n_hhmem, na.rm = TRUE))
+average_max_n_hnmem <- mean(household$max_n_hnmem, na.rm = TRUE)
+cat("There average house hold size is", average_max_n_hnmem,"people.")
+
+```
+
+**What is the distribution of household size?**
+
+```{r}
+
+ggplot(merged_data, aes(x = n_hhmem)) +
+  geom_histogram(binwidth = 1, fill = "lightgreen", color = "black") +  # Specify the border color here
+  geom_text(stat = 'count', aes(label = paste0(percent(..count../sum(..count..), accuracy = 0.1))),
+            position = position_stack(vjust = 0.5), size = 4, color = "black") +
+  labs(title = "Distribution of Household Members", x = "Number of Household Members", y = "Count") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), plot.title = element_text(size = 16, face = "bold")) +
+  scale_x_continuous(breaks = seq(min(merged_data$n_hhmem), max(merged_data$n_hhmem), by = 1)) +
+  scale_y_continuous(labels = scales::comma_format()) +
+  labs(fill = "Number of Household Members in a Household")
+
+
+```
+
+**What is the race and ethnicity distribution?**
+
+```{r}
+
+ggplot(merged_data, aes(x = factor(hispanic), fill = factor(hispanic))) +
+  geom_bar(color = "black", size = 0.7) +  
+  geom_text(stat = 'count', aes(label = paste0(percent(..count../sum(..count..), accuracy = 0.1))),
+            position = position_stack(vjust = 0.5), size = 4, color = "black") +
+  labs(title = "Distribution of Hispanic Origin", x = "Hispanic Origin", y = "Count") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), plot.title = element_text(size = 16, face = "bold")) +
+  scale_fill_manual(values = c("lightgreen", "lightgrey"), labels = c("Not Hispanic", "Hispanic")) +
+  scale_x_discrete(labels = c("Not Hispanic", "Hispanic")) +
+  labs(fill = "Legend")
+
+```
+
+#race distrivution
+
+```{r}
+
+
+
+
+```
+
+**What is the youngest age?**
+
+```{r}
+min_age<-min(merged_data$age_yrs, na.rm = TRUE)
+cat("The youngest person in the dataset is", min_age, "years old.")
+```
+
+**What is the oldest age?**
+
+```{r}
+max_age<-max(merged_data$age_yrs, na.rm = TRUE)
+cat("The oldest person in the dataset is", max_age, "years old.")
+
+```
+
+**What is the gender distribution?**
+
+```{r}
+
+merged_data$male <- as.factor(merged_data$male)
+gender_counts <- table(merged_data$male)
+gender_counts_df <- as.data.frame(gender_counts)
+names(gender_counts_df) <- c("Gender", "Count")
+
+ggplot(gender_counts_df, aes(x = Gender, y = Count / sum(Count), fill = Gender)) +
+  geom_col(color = "black") +
+  geom_text(aes(label = scales::percent(Count / sum(Count), accuracy = 0.1)),
+            position = position_stack(vjust = 0.5), size = 4, color = "black") +
+  labs(title = "Distribution of Gender", x = "Gender", y = "Proportion") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), plot.title = element_text(size = 16, face = "bold")) +
+  scale_fill_manual(values = c("lightgreen", "lightgrey"), labels = c("Female", "Male")) +
+  scale_x_discrete(labels = c("Female", "Male")) + labs(fill = "Legend")
+
+
+```
+
+```         
+```
+
+**What is the distribution of sexual orientation?**
+
+\[missing\]
+
+```{r}
+
+#maybe do higest to lowest
+merged_data$straight <- as.factor(merged_data$straight)
+merged_data$gay <- as.factor(merged_data$gay)
+merged_data$bisexual <- as.factor(merged_data$bisexual)
+
+sexual_orientation_percentages <- data.frame(
+  SexualOrientation = c("Straight", "Gay", "Bisexual"),
+  Percentage = c(
+    sum(merged_data$straight == "Yes", na.rm = TRUE) / nrow(merged_data) * 100,
+    sum(merged_data$gay == "Yes", na.rm = TRUE) / nrow(merged_data) * 100,
+    sum(merged_data$bisexual == "Yes", na.rm = TRUE) / nrow(merged_data) * 100
+  )
+)
+
+ggplot(sexual_orientation_percentages, aes(x = SexualOrientation, y = Percentage, fill = SexualOrientation)) +
+  geom_col(color = "black") +
+  geom_text(aes(label = paste0(round(Percentage, 1), "%")),
+            position = position_stack(vjust = 0.5), size = 4, color = "black") +
+  labs(title = "Percentage Distribution of Sexual Orientation", x = "Sexual Orientation", y = "Percentage") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), plot.title = element_text(size = 16, face = "bold")) +
+  scale_fill_manual(values = c("lightgreen", "lightgrey", "darkgreen"),
+                    labels = c("Straight", "Gay", "Bisexual")) +
+  labs(fill = "Legend")
+
+```
+
+**What is the proportion of substance type?**
+
+```{r}
+
+#maybe do higest to lowest
+
+merged_data$subsAbuse_type <- as.factor(merged_data$subsAbuse_type)
+
+subsAbuse_percentages <- prop.table(table(merged_data$subsAbuse_type, useNA = "always")) * 100
+
+subsAbuse_df <- as.data.frame(subsAbuse_percentages)
+names(subsAbuse_df) <- c("SubstanceAbuse", "Percentage")
+
+ggplot(subsAbuse_df, aes(x = SubstanceAbuse, y = Percentage, fill = SubstanceAbuse)) +
+  geom_col(color = "black") +
+  geom_text(aes(label = paste0(round(Percentage, 1), "%")),
+            position = position_stack(vjust = 0.5), size = 4, color = "black") +
+  labs(title = "Percentage Distribution of Substance Abuse Types", x = "Substance Abuse Type", y = "Percentage") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), plot.title = element_text(size = 16, face = "bold")) +
+  scale_fill_manual(values = c("lightgreen", "lightgrey", "darkgrey", "darkgreen", "lightyellow"),
+                    labels = levels(merged_data$subsAbuse_type),
+                    na.value = "grey") +
+  labs(fill = "Legend")
+
+```
+
+\[Add a Few More Variable Exploration\]
+
+\-\-\-\-\-\-\-\-\-\-\-\-\-\--
+
+\[START the MULTI LAYERED problems\]
