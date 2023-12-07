@@ -2,31 +2,30 @@ project:
   type: website
 
 website:
-  title: "Homelessness"
+  title: "Home"
   navbar:
     left:
       - href: index.qmd
-        text: Research Question
-      - about_the_data.qmd
-      - domestic_violence.qmd
-      - substance_abuse.qmd
+        text: "Research Question"
+      - href: about_the_data.qmd
+        text: "About the Data"
+      - href: domestic_violence.qmd
+        text: "Domestic Violence"
+      - href: substance_abuse.qmd
+        text: "Substance Abuse"
     right:
       - href: about.qmd
-        text: About Us
+        text: "About Us"
 
 format:
   html:
-    theme: yeti
-    css: styles.css
+    theme: "cosmo"
+    css: "styles.css"
     toc: true
-    highlight: zenburn 
+    highlight: "tomorrow-night"
+
 
 output:
-  self_contained: true  
+  self_contained: true
 
-editor: visual
-
-
-
-
-
+editor: "visual"

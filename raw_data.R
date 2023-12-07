@@ -1,8 +1,6 @@
 
 #This section includes the data cleaning process for this data set.
 
-install.packages("sf")
-
 #Import Library
 library(readr)
 library(dplyr)
@@ -20,11 +18,8 @@ head(Sheltered_Individuals)
 LA_County_Service_Planning_Area <- read_csv("~/Desktop/2023 Homeless Data /LA_County_Service_Planning_Area_(2012).csv")
 head(LA_County_Service_Planning_Area)
 
-library(sf)
-file_path <- "~/Desktop/SheltredHomeless2023Survey/better.geojson"
-geojson_data <- st_read(file_path)
-summary(geojson_data)
-head(geojson_data)
+#geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/better.geojson")
+
 
 
 
@@ -190,11 +185,10 @@ merged_data <- merged_data %>%
 
 
 
+#SPA SHAPE FILE REDO
 
-
-
-
-
+#shapefile_and_data <- merged_data %>%
+#  left_join(geojson_data, by = "SPA_NAME")
 
 
 
