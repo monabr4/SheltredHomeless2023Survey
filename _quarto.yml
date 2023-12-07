@@ -1,0 +1,32 @@
+project:
+  type: website
+
+website:
+  title: "Homelessness"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Research Question
+      - about_the_data.qmd
+      - domestic_violence.qmd
+      - substance_abuse.qmd
+    right:
+      - href: about.qmd
+        text: About Us
+
+format:
+  html:
+    theme: yeti
+    css: styles.css
+    toc: true
+    highlight: zenburn 
+
+output:
+  self_contained: true  
+
+editor: visual
+
+
+
+
+

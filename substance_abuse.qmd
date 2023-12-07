@@ -1,0 +1,98 @@
+---
+title: "Substance Abuse and Homlessness"
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+source("raw_data.R")
+
+```
+
+#### Age: Are there age-related differences in the prevalence of substance abuse among homeless individuals?
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+#problem, the top percent is covered by the title 
+merged_data <- na.omit(merged_data)
+
+
+substance_abuse_data <- merged_data %>%
+  filter(!is.na(subsAbuse_type) & subsAbuse_type != "None")
+
+
+percentages <- substance_abuse_data %>%
+  group_by(age_catb, subsAbuse_type) %>%
+  summarise(percentage_substanceAbuse = n() / nrow(substance_abuse_data) * 100, .groups = 'drop') %>%
+  group_by(subsAbuse_type) %>%
+  mutate(total_percentage = sum(percentage_substanceAbuse))
+
+bar_chart <- ggplot(percentages, aes(x = age_catb, y = percentage_substanceAbuse / total_percentage, fill = subsAbuse_type, label = scales::percent(percentage_substanceAbuse / total_percentage))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(position = position_dodge(width = 0.9), vjust = -0.5, size = 3) +
+  labs(title = "Prevalence of Substance Abuse Among Homeless Individuals by Age and Type",
+       x = "Age Category",
+       y = "Percentage",
+       fill = "Substance Abuse Type") +
+  facet_wrap(~subsAbuse_type, scales = "free_y", ncol = 2)
+
+print(bar_chart)
+
+
+
+
+```
+
+#### Race: How does the presence of substance abuse differ among various racial and ethnic groups?
+
+```{r, echo=FALSE, warning=FALSE}
+
+
+merged_data <- na.omit(merged_data)
+
+substance_abuse_data <- merged_data %>%
+  filter(!is.na(subsAbuse_type) & subsAbuse_type != "None")
+
+proportions <- substance_abuse_data %>%
+  group_by(race_nofa) %>%
+  summarise(percentage_substanceAbuse = n() / nrow(substance_abuse_data) * 100)
+
+plot_ly(proportions, labels = ~race_nofa, values = ~percentage_substanceAbuse, type = "pie",
+        textinfo = "label+percent", insidetextorientation = "radial") 
+
+
+```
+
+#### Sexual Orientation: Among individuals experiencing homelessness and substance abuse, are there variations in experiences based on sexual orientation?
+
+```{r, echo=FALSE, warning=FALSE}
+
+```
+
+#### Gender: How does gender influence the experiences of homelessness and the impact of domestic abuse?
+
+```{r, echo=FALSE, warning=FALSE}
+
+merged_data <- na.omit(merged_data)
+substance_abuse_data <- merged_data[merged_data$subsAbuse_type != "None", ]
+
+percentages <- substance_abuse_data %>%
+  group_by(male) %>%
+  summarise(percentage = n() / nrow(substance_abuse_data) * 100)
+
+ggplot(percentages, aes(x = factor(male), y = percentage, fill = factor(male))) +
+  geom_bar(stat = "identity") +
+  labs(title = "Percentage Distribution of Gender Among Those Experiencing Substance Abuse",
+       x = "Gender",
+       y = "Percentage",
+       fill = "Gender") +
+  scale_fill_manual(values = c("0" = "purple", "1" = "darkgreen"),
+                    name = "Gender",
+                    labels = c("Female", "Male")) +
+  geom_text(aes(label = paste0(round(percentage), "%")),
+            position = position_stack(vjust = 0.5),
+            size = 3) + 
+  scale_x_discrete(labels = c("0" = "Female", "1" = "Male")) 
+```

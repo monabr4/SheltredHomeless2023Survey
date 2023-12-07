@@ -1,0 +1,99 @@
+---
+title: "Domestic Violence and Homlessness "
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(dplyr)
+library(magrittr)
+source("raw_data.R")
+
+
+
+
+```
+
+[![(source: actspwc.org)](images/grafic-background-violence.jpg)](https://www.actspwc.org/services/domestic-violence?page_id=67?page_id=67?page_id=21?page_id=67?page_id=67?page_id=21?page_id=21?page_id=67?page_id=21?page_id=21?page_id=67?page_id=21?page_id=21?page_id=67?page_id=67?page_id=21?page_id=67?page_id=21?page_id=67?page_id=67?page_id=21?page_id=21?page_id=67?page_id=67?page_id=21?page_id=67?page_id=21?page_id=67?page_id=21?page_id=67?page_id=21?tmpl=component&print=1?tmpl=component&print=1?tmpl=component&print=1)
+
+### **Age: Are there age-related differences in the prevalence of domestic abuse among homeless individuals?**
+
+```{r, echo=FALSE, warning=FALSE}
+
+
+merged_data <- na.omit(merged_data)
+
+filtered_data <- merged_data[merged_data$domViol == "No", ]
+
+percentages <- filtered_data %>%
+  group_by(age_catb) %>%
+  summarise(percentage_noDomViol = n() / nrow(filtered_data))
+
+bar_chart <- ggplot(percentages, aes(x = age_catb, y = percentage_noDomViol, fill = age_catb, label = scales::percent(percentage_noDomViol))) +
+  geom_bar(stat = "identity") +
+  geom_text(position = position_stack(vjust = 0.5), size = 3) +
+  labs(title = "Prevalence of Domestic Abuse Among Homeless Individuals by Age (No Domestic Violence)",
+       x = "Age Category",
+       y = "Percentage",
+       fill = "Age Category")
+bar_chart
+
+
+```
+
+###    Race: How does the presence of domestic abuse differ among various racial and ethnic groups?
+
+####  
+
+```{r, echo=FALSE, warning=FALSE}
+merged_data$race_nofa <- factor(merged_data$race_nofa)
+
+proportions <- merged_data %>%
+  filter(domViol == "Yes") %>%
+  group_by(race_nofa) %>%
+  summarise(proportion_domViol = n() / nrow(merged_data[merged_data$domViol == "Yes", ]))
+
+
+plot_ly(proportions, labels = ~race_nofa, values = ~proportion_domViol, type = "pie",
+        textinfo = "label+percent", insidetextorientation = "radial") %>%
+  layout(title = "Proportion of Each Race Among Those Who Have Experienced Domestic Abuse",
+         showlegend = TRUE)
+```
+
+### Sexual Orientation: Among individuals experiencing homelessness and domestic abuse, are there variations in experiences based on sexual orientation?
+
+### 
+
+### Gender: How does gender influence the experiences of homelessness and the impact of domestic abuse?
+
+### 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+
+merged_data <- na.omit(merged_data)
+
+domestic_abuse_data <- merged_data[merged_data$domViol == "Yes", ]
+percentages <- domestic_abuse_data %>%
+  group_by(male) %>%
+  summarise(percentage = n() / nrow(domestic_abuse_data) * 100)
+
+ggplot(percentages, aes(x = factor(male), y = percentage, fill = factor(male))) +
+  geom_bar(stat = "identity") +
+  labs(title = "Percentage Distribution of Gender Among Those Experiencing Domestic Abuse",
+       x = "Gender",
+       y = "Percentage",
+       fill = "Gender") +
+  scale_fill_manual(values = c("0" = "purple", "1" = "darkgreen"),
+                    name = "Gender",
+                    labels = c("Female", "Male")) +
+  geom_text(aes(label = paste0(round(percentage), "%")),
+            position = position_stack(vjust = 0.5),
+            size = 3) + 
+  scale_x_discrete(labels = c("0" = "Female", "1" = "Male")) 
+
+```
+
+\[INSERT INFO\]
