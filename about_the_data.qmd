@@ -2,6 +2,10 @@
 title: "About the Data"
 ---
 
+
+
+
+
 ## General Information About the Data Set
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
@@ -11,6 +15,8 @@ library(dplyr)
 source("raw_data.R")
 
 ```
+
+
 
 **What are the data dimensions?**
 

@@ -1,5 +1,6 @@
 project:
   type: website
+  output-dir: docs
 
 website:
   title: "Home"
@@ -13,9 +14,10 @@ website:
         text: "Domestic Violence"
       - href: substance_abuse.qmd
         text: "Substance Abuse"
-    right:
-      - href: about.qmd
-        text: "About Us"
+     # -href:____.pdf
+      #text:"Project PDF
+        
+
 
 format:
   html:

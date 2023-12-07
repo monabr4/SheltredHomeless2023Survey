@@ -155,3 +155,5 @@ ggplot(percentages, aes(x = factor(male), y = percentage, fill = factor(male))) 
 ```
 
 The analysis of substance abuse among sheltered individuals in Los Angeles County shows a gender disparity. Of those experiencing substance abuse, 69% identify as male, while 31% identify as female.
+
+### Conclusion:

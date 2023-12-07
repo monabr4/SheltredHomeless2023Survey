@@ -1,6 +1,7 @@
 ---
 title: "Sheltred Individuals Who Experience Homlessness in Los Angeles County "
 author: "Mona Bandov"
+date: "December 8, 2023"
 output: 
     html_document:
         toc: TRUE
@@ -9,7 +10,7 @@ output:
 
 ## Homelessness in Los Angeles, Calfiornia (2023)
 
-Understanding the demographics of homelessness in Los Angeles is crucial for specialized interventions and equitable resource allocation. It allows policymakers to create solutions to specific needs, especially for vulnerable populations. Beyond policy considerations, this understanding fosters empathy and informs compassionate decision-making, contributing to holistic and sustainable efforts to eradicate homelessness in the Los Angeles County.
+Understanding the demographics of homelessness in Los Angeles is crucial for specialized interventions and equitable resource allocation. It allows policymakers to create solutions to specific needs, especially for vulnerable populations. Beyond policy considerations, this understanding fosters empathy and informs careful decision-making, contributing to holistic and sustainable efforts to eradicate homelessness in the Los Angeles County.
 
 The 2023 dataset from LAHSA exclusively focuses on sheltered individuals in Los Angeles County, comprising 10,000 to 14,000 records from the Homeless Management Information System (HMIS). Distinct patterns in the sheltered population, including larger shares of women, children, and newly homeless individuals, are revealed. Presented in household and individual formats, UCLA's Paul Beeman has standardized the records for enhanced consistency. The dataset, available in its original, de-identified form, along with a questionnaire and standardized version codebook, provides a focused resource for exploring the attributes and experiences of sheltered individuals during 2023.
 
@@ -41,8 +42,4 @@ How does the presence of substance abuse correlate with experiences of domestic 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 source("raw_data.R")
-```
-
-```{r}
-
 ```
