@@ -44,7 +44,7 @@ combined_data$domViolYes_ratio <- round((combined_data$total_count_domViolYes / 
 
 grouped_data <- combined_data %>% select(SPA_NAME, domViolYes_ratio)
 
-geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/better.geojson", quiet = TRUE)
+geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/data/better.geojson", quiet = TRUE)
 
 
 merged_geojson <- merge(geojson_data, grouped_data, by = "SPA_NAME", all.x = TRUE)

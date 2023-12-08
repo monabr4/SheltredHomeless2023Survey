@@ -11,15 +11,14 @@ library(sf)
 
 
 #Import Data 
-Sheltered_Individuals <- read_csv("~/Desktop/2023 Homeless Data /[WORKING]2023-HMIS-Records-of-Sheltered-Individuals.csv")
+Sheltered_Individuals <- read_csv("~/Desktop/SheltredHomeless2023Survey/data/[WORKING]2023-HMIS-Records-of-Sheltered-Individuals.csv")
 head(Sheltered_Individuals)
 
 
-LA_County_Service_Planning_Area <- read_csv("~/Desktop/2023 Homeless Data /LA_County_Service_Planning_Area_(2012).csv")
+LA_County_Service_Planning_Area <- read_csv("~/Desktop/SheltredHomeless2023Survey/data/LA_County_Service_Planning_Area_(2012).csv")
 head(LA_County_Service_Planning_Area)
 
-#geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/better.geojson")
-
+geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/data/better.geojson")
 
 
 
@@ -169,7 +168,7 @@ Sheltered_Individuals <- Sheltered_Individuals %>%
 #unique(LA_County_Service_Planning_Area$SPA_NAME)
 
 
-#Creatinf the New Data Set 
+#Creating the New Data Set 
 merged_data <- left_join(Sheltered_Individuals, LA_County_Service_Planning_Area, by = "SPA_NAME")
 
 merged_data <- merged_data %>%
@@ -187,8 +186,8 @@ merged_data <- merged_data %>%
 
 #SPA SHAPE FILE REDO
 
-#shapefile_and_data <- merged_data %>%
-#  left_join(geojson_data, by = "SPA_NAME")
+shapefile_and_data <- merged_data %>%
+  left_join(geojson_data, by = "SPA_NAME")
 
 
 

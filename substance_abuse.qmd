@@ -44,7 +44,7 @@ combined_data <- combined_data %>%
 
 grouped_subs_data <- combined_data %>% select(SPA_NAME, subsAbuseYes_ratio)
 
-geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/better.geojson", quiet = TRUE)
+geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/data/better.geojson", quiet = TRUE)
 merged_geojson_subs <- merge(geojson_data, grouped_subs_data, by = "SPA_NAME", all.x = TRUE)
 color_palette_subs <- viridis_pal()(nrow(merged_geojson_subs))
 
