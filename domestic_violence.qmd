@@ -3,12 +3,9 @@ title: "Domestic Violence and Homlessness "
 ---
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-library(dplyr)
+
 library(ggplot2)
-library(ggplot2)
-library(dplyr)
 library(plotly)
-library(dplyr)
 library(dplyr)
 library(leaflet)
 library(sf)
