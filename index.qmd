@@ -7,6 +7,20 @@ output:
         toc: TRUE
         toc_float: TRUE
 ---
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(plotly)
+library(leaflet)
+library(sf)
+library(viridis)
+library(magrittr)
+library(sf)
+source("raw_data.R")
+
+
+
+```
 
 ## Homelessness in Los Angeles, California (2023)
 
@@ -19,27 +33,66 @@ The 2023 dataset from LAHSA exclusively focuses on sheltered individuals in Los 
 ### Research Questions:
 
 \
-The research questions aim to explore the intersection of domestic abuse and substance abuse, stratified by age, race,gender, and sexual orientation. By examining age-specific trends, racial variations, and gender variations, we seek to inform targeted interventions that address the unique challenges faced by different subpopulations. This research is essential for the development of inclusive support systems at the intersection of domestic and substance abuse.\
+The research questions aim to explore the intersection of domestic abuse and substance abuse, stratified by age, race, and gender. By examining age-specific trends, racial variations, and gender variations, we seek to inform targeted interventions that address the unique challenges faced by different sub-populations. This research is essential for the development of inclusive support systems at the intersection of domestic and substance abuse.\
 \
 \
 **Domestic Abuse and Homelessness:**
 
-How are differences in age, race, sexual orientation, and gender dynamics linked to variations in experiences of domestic abuse among sheltered individuals in Los Angeles County, highlighting potential disparities?
+How are differences in age, race, and gender dynamics linked to variations in experiences of domestic abuse among sheltered individuals in Los Angeles County, highlighting potential disparities?
 
 **Substance Abuse and Homelessness:**
 
-How are differences in age, race, sexual orientation, and gender dynamics linked to variations in experiences of substance abuse among sheltered individuals in Los Angeles County, highlighting potential disparities?
+How are differences in age, race, and gender dynamics linked to variations in experiences of substance abuse among sheltered individuals in Los Angeles County, highlighting potential disparities?
 
 **Substance Abuse and Domestic Abuse:**
 
-How does the presence of substance abuse correlate with experiences of domestic abuse among sheltered individuals in Los Angeles County? Additionally, are there variations in this relationship based on demographic factors such as age, race, sexual orientation, and gender?
+How does the presence of substance abuse correlate with experiences of domestic abuse among sheltered individuals in Los Angeles County? Additionally, are there variations in this relationship based on demographic factors such as age, race and gender?
 
 ### Service Planning Areas (SPA):
+
 
 In the United States, particularly in the state of California, Service Planning Areas (SPAs) are geographical regions used for planning and organizing health and social services. These areas are designed to help allocate resources and coordinate services effectively. For example, in Los Angeles County, California, there are eight Service Planning Areas, each responsible for planning and delivering health and social services to the residents within its boundaries.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
+grouped_2 <- merged_data %>%
+  group_by(SPA_NAME) %>%
+  summarise(denominator = n())
+
+grouped_1 <- merged_data %>%
+  filter(!is.na(subsAbuse_type) & subsAbuse_type != "None") %>%
+  group_by(SPA_NAME) %>%
+  summarise(
+    numerator = n()
+  )
+
+combined_data <- left_join(grouped_2, grouped_1, by = "SPA_NAME")
+combined_data <- tidyr::replace_na(combined_data, list(numerator = 0, denominator = 0))
+
+combined_data <- combined_data %>%
+  mutate(subsAbuseYes_ratio = round((numerator / denominator) * 100, 2))
+
+grouped_subs_data <- combined_data %>% select(SPA_NAME, subsAbuseYes_ratio)
+
+geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/data/better.geojson", quiet = TRUE)
+merged_geojson_subs <- merge(geojson_data, grouped_subs_data, by = "SPA_NAME", all.x = TRUE)
+color_palette_subs <- viridis_pal()(nrow(merged_geojson_subs))
+
+leaflet() %>%
+  addProviderTiles("OpenStreetMap.Mapnik") %>%
+  addPolygons(
+    data = merged_geojson_subs,
+    fillOpacity = 0.7,
+    stroke = TRUE,
+    weight = 1,
+    fillColor = ~color_palette_subs,
+    highlight = highlightOptions(
+      weight = 2,
+      fillOpacity = 0.5,
+      bringToFront = TRUE
+    ),
+    label = ~paste("SPA NAME: ", SPA_NAME)
+  )
 
 
 
@@ -47,10 +100,10 @@ In the United States, particularly in the state of California, Service Planning 
 
 
 
-In addressing homelessness, substance abuse, and domestic violence, Service Planning Areas (SPAs) help divide which areas in Los Angeles need services.
+In addressing homelessness, substance abuse, and domestic violence, Service Planning Areas (SPAs) help divide and identify which areas in Los Angeles need services.
 
 ### Data Sources:
 
-[Los Angeles Country SPA Data](https://hub.arcgis.com/datasets/e9134f735c0c473d8156f4703a687ce9/explore?location=33.954160%2C-118.298576%2C9.56)
+[Los Angeles Country SPA and CSV Data](https://hub.arcgis.com/datasets/e9134f735c0c473d8156f4703a687ce9/explore?location=33.954160%2C-118.298576%2C9.56)
 
 [Survey of Sheltered Individuals Living in Los Angeles County (2023)](https://economicrt.org/publication/los-angeles-county-homeless-count-data-library/)

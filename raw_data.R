@@ -8,23 +8,20 @@ library(ggplot2)
 library(scales)
 library(sf)
 library(magrittr)
+library(orca)
+library(plotly)
 
 
 
 #Import Data 
 Sheltered_Individuals <- read_csv("~/Desktop/SheltredHomeless2023Survey/data/[WORKING]2023-HMIS-Records-of-Sheltered-Individuals.csv")
-head(Sheltered_Individuals)
-
 
 LA_County_Service_Planning_Area <- read_csv("~/Desktop/SheltredHomeless2023Survey/data/LA_County_Service_Planning_Area_(2012).csv")
-head(LA_County_Service_Planning_Area)
 
 geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/data/better.geojson")
 
 
 
-
-#Data is not clean, so I will filter!
 
 #Data Cleaning
 
@@ -34,20 +31,15 @@ LA_County_Service_Planning_Area <- LA_County_Service_Planning_Area %>%
   select(SPA_NAME, ABBV, Shape_Length, Shape_Area)
 
 
-#Second Data Set: SPA
+#Second Data Set: SPA (scroll down) to the end
+
+#Recoding Variables:
 
 # MALE
+
 #unique(Sheltered_Individuals$male)
 Sheltered_Individuals$male <- ifelse(Sheltered_Individuals$male == "0.No", 0, ifelse(Sheltered_Individuals$male == "1.Yes", 1,Sheltered_Individuals$male))
 
-#hhold_type
-# unique(Sheltered_Individuals$hhold_type)
-Sheltered_Individuals$hhold_type <- ifelse(Sheltered_Individuals$hhold_type == "2.HHs w/o children", "HHs w/o children", ifelse(Sheltered_Individuals$hhold_type == "1.HH with 1+ child", "HH with 1+ child", ifelse(Sheltered_Individuals$hhold_type == "3.HHs w/ only children", "HHs w/ only children", Sheltered_Individuals$hhold_type)))
-
-
-
-
-#Recoding Varaibles:
 
 
 #Domestic Violence 
@@ -180,8 +172,6 @@ merged_data <- merged_data %>%
 #The codebook provides a comprehensive overview of the 2023 datasetfrom LAHSA,
 #focusing exclusively on sheltered individuals in Los Angeles County, with 19 
 #variables capturing demographic and contextual information.
-
-
 
 
 
