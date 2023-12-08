@@ -4,7 +4,7 @@ title: "About the Data"
 
 ## Data Exploration:
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE,include=FALSE}
 library(dplyr)
 library(ggplot2)
 library(dplyr)

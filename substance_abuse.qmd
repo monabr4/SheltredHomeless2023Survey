@@ -2,7 +2,7 @@
 title: "Substance Abuse and Homlessness"
 ---
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE,include=FALSE}
 library(dplyr)
 library(ggplot2)
 library(plotly)
@@ -66,7 +66,7 @@ Analyzing substance abuse percentages across Service Planning Agencies (SPA) sho
 
 ### Age: Are there age-related differences in the prevalence of substance abuse among homeless individuals?
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE,include=TRUE}
 
 filtered_data <- merged_data %>%
   filter(!is.na(subsAbuse_type) & subsAbuse_type != "None")
@@ -74,7 +74,6 @@ filtered_data <- merged_data %>%
 grouped_data <- filtered_data %>%
   group_by(subsAbuse_type, age_catb) %>%
   summarise(count = n())
-grouped_data
 
 bar_chart <- ggplot(grouped_data, aes(x = age_catb, y = count/sum(count), fill = subsAbuse_type)) +
   geom_bar(stat = "identity", position = "dodge") +

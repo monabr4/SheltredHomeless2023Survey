@@ -2,7 +2,7 @@
 title: "Domestic Violence and Homlessness "
 ---
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE,include=FALSE}
 
 library(ggplot2)
 library(plotly)
