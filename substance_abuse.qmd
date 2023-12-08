@@ -21,7 +21,7 @@ source("raw_data.R")
 
 [![Source: www.wellmark.com](images/Substance-Abuse-During-COVID-19.png)](https://www.wellmark.com/blue/healthy-living/the-pandemics-deadly-affect-on-substance-abuse)
 
-### The percentage of those abuse substances by Service Planning Agencies (SPA)
+### The percentage of those who abuse substances by Service Planning Agencies (SPA).
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -66,44 +66,40 @@ leaflet() %>%
 
 ```
 
-### Age: Are there age-related differences in the prevalence of substance abuse among homeless individuals?
+Analyzing substance abuse percentages across Service Planning Agencies (SPA) shows distinct rates. SPA East reports the highest percentage, with 40.8% experiencing some form of substance abuse. In Metro, which includes downtown LA, the second-highest percentage of 21.56% experiencing substance abuse. On the contrary, San Gabriel SPA has the lowest rate at 7.53%. These disparities underscore the need for targeted interventions and tailored support systems within each SPA, addressing the specific challenges faced by the people who experience homelessness.
+
+### Age: Are there age-related differences in the prevalence of substance abuse among homeless individuals?
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
-#problem, the top percent is covered by the title 
-merged_data <- na.omit(merged_data)
-
-
-substance_abuse_data <- merged_data %>%
+filtered_data <- merged_data %>%
   filter(!is.na(subsAbuse_type) & subsAbuse_type != "None")
 
+grouped_data <- filtered_data %>%
+  group_by(subsAbuse_type, age_catb) %>%
+  summarise(count = n())
+grouped_data
 
-percentages <- substance_abuse_data %>%
-  group_by(age_catb, subsAbuse_type) %>%
-  summarise(percentage_substanceAbuse = n() / nrow(substance_abuse_data) * 100, .groups = 'drop') %>%
-  group_by(subsAbuse_type) %>%
-  mutate(total_percentage = sum(percentage_substanceAbuse))
-
-bar_chart <- ggplot(percentages, aes(x = age_catb, y = percentage_substanceAbuse / total_percentage, fill = subsAbuse_type, label = scales::percent(percentage_substanceAbuse / total_percentage))) +
+bar_chart <- ggplot(grouped_data, aes(x = age_catb, y = count/sum(count), fill = subsAbuse_type)) +
   geom_bar(stat = "identity", position = "dodge") +
-  geom_text(position = position_dodge(width = 0.9), vjust = -0.5, size = 3) +
-  labs(title = "Prevalence of Substance Abuse Among Homeless Individuals by Age and Type",
+  geom_text(aes(label = scales::percent(count/sum(count))),
+            position = position_dodge(width = 0.9), vjust = -0.5, size = 3, hjust = 0.5) +
+  labs(title = "Percent of Substance Abuse Types by Age Category",
        x = "Age Category",
-       y = "Percentage",
+       y = "Percent (%)",
        fill = "Substance Abuse Type") +
-  facet_wrap(~subsAbuse_type, scales = "free_y", ncol = 2)
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 print(bar_chart)
 
 ```
 
-### Race: How does the presence of substance abuse differ among various racial and ethnic groups?
+ Among those aged 18-24, drug abuse is the highest, overall substance abuse is the lowest in this age group. For individuals between the ages of 25-54, nearly 30% report the concurrent abuse of drugs and alcohol, while approximately 24% specifically report drug abuse. In the 55-61 age category, the percent abuse of both substances is 5.94% among those disclosing substance abuse. In the oldest category (61+), alcohol abuse emerges as the predominant form of substance abuse.
 
-\[Fix the bars\]
+### Race: How does the presence of substance abuse differ among various racial groups?
 
 ```{r, echo=FALSE, warning=FALSE}
-#nedds a title 
-
 merged_data <- na.omit(merged_data)
 
 substance_abuse_data <- merged_data %>%
@@ -114,19 +110,13 @@ proportions <- substance_abuse_data %>%
   summarise(percentage_substanceAbuse = n() / nrow(substance_abuse_data) * 100)
 
 plot_ly(proportions, labels = ~race_nofa, values = ~percentage_substanceAbuse, type = "pie",
-        textinfo = "label+percent", insidetextorientation = "radial") 
+        textinfo = "label+percent", insidetextorientation = "radial") %>%
+  layout(title = "Distribution of Substance Abuse by Race")
+
 
 ```
 
 The analysis of substance abuse prevalence among sheltered individuals in Los Angeles County reveals significant racial disparities. Approximately 60.1% of Whites report experiencing substance abuse, indicating a substantial impact within this racial group. In comparison, 33.3% of Blacks also report substance abuse experiences.
-
-### Sexual Orientation: Among individuals experiencing homelessness and substance abuse, are there variations in experiences based on sexual orientation?
-
-\[NEED TO FIGURE IT OUT\]
-
-```{r, echo=FALSE, warning=FALSE}
-
-```
 
 ### Gender: How does gender influence the experiences of homelessness and the impact of domestic abuse?
 

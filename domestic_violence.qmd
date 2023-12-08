@@ -23,7 +23,7 @@ source("raw_data.R")
 
 [![source: actspwc.org](images/grafic-background-violence.jpg)](https://www.actspwc.org/services/domestic-violence?page_id=67?page_id=67?page_id=21?page_id=67?page_id=67?page_id=21?page_id=21?page_id=67?page_id=21?page_id=21?page_id=67?page_id=21?page_id=21?page_id=67?page_id=67?page_id=21?page_id=67?page_id=21?page_id=67?page_id=67?page_id=21?page_id=21?page_id=67?page_id=67?page_id=21?page_id=67?page_id=21?page_id=67?page_id=21?page_id=67?page_id=21?tmpl=component&print=1?tmpl=component&print=1?tmpl=component&print=1)
 
-### The percentage of those experiencing domestic violence by Service Planning Agencies (SPA)
+### The percentage of those experiencing domestic violence by Service Planning Agencies (SPA).
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -37,6 +37,8 @@ grouped_data2 <- merged_data %>%
   group_by(SPA_NAME) %>%
   summarise(
     total_count_domViolYes = n())
+
+
 combined_data <- left_join(grouped_data, grouped_data2, by = "SPA_NAME")
 combined_data <- tidyr::replace_na(combined_data, list(total_count_domViolYes = 0))
 
@@ -72,12 +74,14 @@ leaflet() %>%
 
 ```
 
+This map presents the percentage of individuals experiencing domestic violence in different Service Planning Agencies (SPA). About 32.24% of surveyed individuals residing in SPA West, including cities such as Santa Monica, Venice, and Malibu, report experiencing domestic violence. In SPA San Fernando, recognized as "the valley," approximately 31.17% of surveyed individuals reveal experiences of domestic violence. SPA East has the lowest percentage, at around 20.25% of individuals living in this area report experiencing domestic abuse.
+
 ### **Age: Are there age-related differences in the prevalence of domestic abuse among homeless individuals?**
 
 ```{r, echo=FALSE, warning=FALSE}
 merged_data <- na.omit(merged_data)
 
-filtered_data <- merged_data[merged_data$domViol == "No", ]
+filtered_data <- merged_data[merged_data$domViol == "Yes", ]
 
 percentages <- filtered_data %>%
   group_by(age_catb) %>%
@@ -86,7 +90,7 @@ percentages <- filtered_data %>%
 bar_chart <- ggplot(percentages, aes(x = age_catb, y = percentage_noDomViol, fill = age_catb, label = scales::percent(percentage_noDomViol))) +
   geom_bar(stat = "identity") +
   geom_text(position = position_stack(vjust = 0.5), size = 3) +
-  labs(title = "Percent of Domestic Abuse Among Sheltered Homeless Individuals by Age (No Domestic Violence)",
+  labs(title = "Percent of Domestic Abuse Among Sheltered Homeless Individuals by Age)",
        x = "Age Category",
        y = "Percentage",
        fill = "Age Category")
@@ -95,13 +99,15 @@ bar_chart
 
 ```
 
-The analysis of domestic abuse percentage among sheltered homeless individuals in Los Angeles County shows a distinctive age-related patterns. While the younger demographic (18-24 years old) reports a comparatively lower percentage at 12.25%, the majority of cases are concentrated within the prime working-age group (25-54 years old), comprising 59.94%. Individuals aged 55-61 exhibit a percentage similar to the younger age group at 12.98%, while those aged 62 and above experience a slightly higher rate of 15.82%.
+This graph shows age-related differences in the percentage of domestic abuse among homeless individuals. The youngest age group (18-24) reports a relatively lower percentage of domestic abuse at approximately 14.6%. In the 55-61 age category, the percentage slightly decreases to 12.5%. The majority of those experiencing domestic abuse fall within the age range of 25-54 (65%). The lowest reported percentage, at 7.8%, is observed in the 62 years and older age group.
 
 ### Race: How does the presence of domestic abuse differ among various racial and ethnic groups?
 
 #### 
 
 ```{r, echo=FALSE, warning=FALSE}
+library(plotly)
+
 merged_data$race_nofa <- factor(merged_data$race_nofa)
 
 proportions <- merged_data %>%
@@ -109,16 +115,19 @@ proportions <- merged_data %>%
   group_by(race_nofa) %>%
   summarise(proportion_domViol = n() / nrow(merged_data[merged_data$domViol == "Yes", ]))
 
-
 plot_ly(proportions, labels = ~race_nofa, values = ~proportion_domViol, type = "pie",
-        textinfo = "label+percent", insidetextorientation = "radial") %>%
-  layout(title = "Proportion of Each Race Among Those Who Have Experienced Domestic Abuse",
-         showlegend = TRUE)
+        textinfo = "label+percent", insidetextorientation = "horizontal") %>%
+  layout(title = "Percentage of Each Race Among Those Who Have Experienced Domestic Abuse",
+         showlegend = TRUE) 
+
+
+
+
+
+
 ```
 
-The analysis of domestic abuse prevalence among sheltered individuals in Los Angeles County reveals distinct racial disparities. Approximately 42% of Blacks and 50.3% of Whites report experiencing domestic abuse. The remaining racial and ethnic groups represent less than 7.7% of those experience domestic abuse.
-
-### Sexual Orientation: Among individuals experiencing homelessness and domestic abuse, are there variations in experiences based on sexual orientation?
+The analysis of domestic abuse prevalence among sheltered individuals in Los Angeles County reveals distinct racial disparities. Approximately 42% of Blacks and 50.3% of Whites report experiencing domestic abuse. The remaining racial and ethnic groups represent less than 7.7% of those experiencing domestic abuse.
 
 ### 
 

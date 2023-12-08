@@ -59,6 +59,14 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.3/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -113,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#general-information-about-the-data-set" id="toc-general-information-about-the-data-set" class="nav-link active" data-scroll-target="#general-information-about-the-data-set">General Information About the Data Set</a></li>
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link active" data-scroll-target="#data-exploration">Data Exploration:</a></li>
   </ul>
 </nav>
     </div>
@@ -137,8 +145,8 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="general-information-about-the-data-set" class="level2">
-<h2 class="anchored" data-anchor-id="general-information-about-the-data-set">General Information About the Data Set</h2>
+<section id="data-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration">Data Exploration:</h2>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `Service_Planning_Areas__2022_' from data source 
@@ -181,43 +189,36 @@ Geodetic CRS:  WGS 84</code></pre>
 <pre><code>The oldest person in the dataset is 99 years old.</code></pre>
 </div>
 </div>
-<p><strong>What is the distribution of gender?</strong></p>
+<p>The gender distribution indicates that 43.3% of respondents identify as female, 52.4% as male, and 4.3% did not provide a response.</p>
+<p><strong>What is the race distribution?</strong></p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="about_the_data_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ad01a4eb72795a74e4a9" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ad01a4eb72795a74e4a9">{"x":{"visdat":{"65cff7302d8":["function () ","plotlyVisDat"]},"cur_data":"65cff7302d8","attrs":{"65cff7302d8":{"labels":{},"values":{},"hole":0.59999999999999998,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Proportion of Races","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Asian","Black","Indigenous","Other","Pacific Islander","Two or more races","White"],"values":[1.6797228080747213,44.817716179572159,2.0789394395902381,0.0075323892738776736,0.75323892738776732,2.1994576679722808,48.463392588128954],"hole":0.59999999999999998,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
-<p>The gender distribution indicates that 43.3% of respondents identify as female, 52.4% as male, and 4.3% did not provide a response.</p>
-<p><strong>What is the distribution of household size?</strong></p>
+<p>For those who reported their race, 48% of the surveyed individuals are White. Similarly, 44.8% of the survey individuals are Black. About 3.7% of the data are represented by other racial groups.</p>
+<p><strong>What is the gender distribution?</strong></p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="about_the_data_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><strong>What is the race and ethnicity distribution?</strong></p>
+<p>Among individuals who provided information about their gender, approximately 54% identified as male, while 45.3% identified as female.</p>
+<p><strong>What is the distribution of sexual orientation?</strong></p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="about_the_data_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><strong>What is the gender distribution?</strong></p>
+<p>Among those who disclosed their sexual orientation, 61% identified as straight, 2.1% as gay, and 1.9% as bisexual.</p>
+<p><strong>What is the proportion of substance type?</strong></p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="about_the_data_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><strong>What is the distribution of sexual orientation?</strong></p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="about_the_data_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p><strong>What is the proportion of substance type?</strong></p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="about_the_data_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<p>Approximately 79.8% of the individuals surveyed indicated that they refrain from substance abuse. About 8.4% reported engaging in the abuse of both drugs and alcohol, while 4.6% experience alcohol abuse and 7.2% experience drug abuse.</p>
 
 
 </section>
