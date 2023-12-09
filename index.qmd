@@ -164,6 +164,8 @@ bar_chart <- ggplot(grouped_data, aes(x = age_catb, y = count/sum(count), fill =
 print(bar_chart)
 
 ```
+
+Findings: Among those aged 18-24, drug abuse is the highest, overall substance abuse is the lowest in this age group. For individuals between the ages of 25-54, nearly 30% report the concurrent abuse of drugs and alcohol, while approximately 24% specifically report drug abuse. In the 55-61 age category, the percent abuse of both substances is 5.94% among those disclosing substance abuse. In the oldest category (62+), alcohol abuse is the most common type of substance abuse. Those who are under 18 and report that they abuse substance, but not specify what type are graphed to the right of the plot.
 :::
 
 ::: {#Gender .tab-content}
@@ -191,10 +193,13 @@ ggplot(percentages, aes(x = factor(male), y = percentage, fill = factor(male))) 
             size = 3) + 
   scale_x_discrete(labels = c("0" = "Female", "1" = "Male"))
 ```
+
+Findings: The analysis of substance abuse among sheltered individuals in Los Angeles County shows a gender disparity. Of those experiencing substance abuse, 69% identify as male, while 31% identify as female.
 :::
 
-::: {#Race .tab-content}
+::: tab-content
 ```{r, echo=FALSE, warning=FALSE, message= FALSE}
+
 proportions_substanceAbuse <- merged_data %>%
   filter(!is.na(subsAbuse_type) & subsAbuse_type != "None") %>%
   group_by(race_nofa) %>%
@@ -207,7 +212,10 @@ fig_substanceAbuse <- plot_ly(proportions_substanceAbuse, labels = ~race_nofa, v
          margin = list(l = 10, r = 10, b = 50, t = 80))
 
 fig_substanceAbuse
+
 ```
+
+Findings: The analysis of substance abuse prevalence among sheltered individuals in Los Angeles County reveals significant racial disparities. Approximately 60.1% of Whites report experiencing some form of substance abuse, indicating a substantial impact within this racial group. In comparison, 33.3% of Blacks also report substance abuse experiences.
 :::
 :::
 
