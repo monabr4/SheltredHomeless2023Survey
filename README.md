@@ -12,15 +12,15 @@
 -   [Installation](#installation)
 -   [Website Link](#website-link)
 
-## Introduction {#introduction}
+## Introduction 
 
 Understanding the demographics of homelessness in Los Angeles is crucial for specialized interventions and equitable resource allocation. It allows policymakers to create solutions to specific needs, especially for vulnerable populations. Beyond policy considerations, this understanding fosters empathy and informs careful decision-making, contributing to holistic and sustainable efforts to eradicate homelessness in Los Angeles County.
 
-## Question {#question}
+## Question 
 
 This research project aims to explore the intersection of domestic abuse and substance abuse, with a focus on age, race, and gender stratification. By examining age-specific trends, racial variations, and gender differences, our goal is to inform targeted interventions that address the unique challenges faced by different sub-populations. This research is essential for the development of inclusive support systems at the intersection of domestic and substance abuse.
 
-## Project Structure  {#project-structure}
+## Project Structure 
 
 -   `__quarto.yml` : website's skeleton
 
@@ -39,8 +39,6 @@ This research project aims to explore the intersection of domestic abuse and sub
 
 -   `domestic_violence.qmd` : code for the domestic violence tab on the website
 
--   `files.sl`
-
 -   **Folder: graphs:** include static images of the coded graphs
 
 -   **Folder: images:** includes images on the website
@@ -55,7 +53,7 @@ This research project aims to explore the intersection of domestic abuse and sub
 
 -   `substance_abuse.qmd` : code for the substance abuse tab on the website
 
-## Prerequisites {#prerequisites}
+## Prerequisites 
 
 List the required R packages:
 
@@ -73,6 +71,7 @@ You can install these packages using the following R commands:
 R install.packages(c("dplyr", "ggplot2", "plotly", "leaflet", "sf", "viridis", "magrittr"))
 \`\`\`
 
-## Website Link {#website-link}
+## Website Link 
 
 Explore the project website at <https://monabr4.github.io/SheltredHomeless2023Survey/>.
+
