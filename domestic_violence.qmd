@@ -12,6 +12,7 @@ library(sf)
 library(viridis)
 library(magrittr)
 library(sf)
+geojson_data <- st_read("~/SheltredHomeless2023Survey/data/better.geojson", quiet = TRUE)
 source("raw_data.R")
 
 
@@ -19,6 +20,7 @@ source("raw_data.R")
 ```
 
 [![source: actspwc.org](images/grafic-background-violence.jpg)](https://www.actspwc.org/services/domestic-violence?page_id=67?page_id=67?page_id=21?page_id=67?page_id=67?page_id=21?page_id=21?page_id=67?page_id=21?page_id=21?page_id=67?page_id=21?page_id=21?page_id=67?page_id=67?page_id=21?page_id=67?page_id=21?page_id=67?page_id=67?page_id=21?page_id=21?page_id=67?page_id=67?page_id=21?page_id=67?page_id=21?page_id=67?page_id=21?page_id=67?page_id=21?tmpl=component&print=1?tmpl=component&print=1?tmpl=component&print=1)
+
 
 ### The percentage of those experiencing domestic violence by Service Planning Agencies (SPA).
 
@@ -161,3 +163,4 @@ The bar graph provides a representation of the gender distribution among those f
 ### Conclusion:
 
 Homelessness and domestic violence can intersect, as individuals feeling abusive homes may find themselves without shelter, making it difficult to escape violence. Also, those who face homelessness may be at highest risk of domestic violence. Among those who experience domestic violence, 72% are females, 42% are black, 50.3% are white, and 65% are between the ages of 25 and 54. East SPA (ex. Malibu, Santa Monica, Culver City etc.) has the highest percentage (32.24%) of individuals living in that SPA experiencing domestic violence abuse. Understanding the demographics can help provide policy makers, nonprofits, the general public and more to create domestic violence intervention plans for different sub-populations.
+
