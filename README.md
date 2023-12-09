@@ -69,7 +69,9 @@ List the required R packages:
 
 You can install these packages using the following R commands:
 
-\`\`\`R install.packages(c("dplyr", "ggplot2", "plotly", "leaflet", "sf", "viridis", "magrittr"))
+\`\`\`
+R install.packages(c("dplyr", "ggplot2", "plotly", "leaflet", "sf", "viridis", "magrittr"))
+\`\`\`
 
 ## Website Link {#website-link}
 
