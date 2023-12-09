@@ -34,20 +34,16 @@ The 2023 dataset from LAHSA exclusively focuses on sheltered individuals in Los 
 ### Research Questions:
 
 \
-The research questions aim to explore the intersection of domestic abuse and substance abuse, stratified by age, race, and gender. By examining age-specific trends, racial variations, and gender variations, we seek to inform targeted interventions that address the unique challenges faced by different sub-populations. This research is essential for the development of inclusive support systems at the intersection of domestic and substance abuse for those who experience homelessness.\
+The research questions aim to explore the intersection of domestic abuse and substance abuse, stratified by age, race, and gender. By examining age-specific trends, racial variations, and gender variations, we seek to inform targeted interventions that address the unique challenges faced by different subpopulations. This research is essential for the development of inclusive support systems at the intersection of domestic and substance abuse for those who experience homelessness.\
 \
 \
 **Domestic Abuse and Homelessness:**
 
-How are differences in age, race, and gender dynamics linked to variations in experiences of domestic abuse among sheltered individuals in Los Angeles County, highlighting potential disparities?
+How are differences in age, race and gender dynamics linked to variations in experiences of domestic abuse among sheltered individuals in Los Angeles County, highlighting potential disparities in demographics and location?
 
 **Substance Abuse and Homelessness:**
 
-How are differences in age, race, and gender dynamics linked to variations in experiences of substance abuse among sheltered individuals in Los Angeles County, highlighting potential disparities?
-
-**Substance Abuse and Domestic Abuse:**
-
-How does the presence of substance abuse correlate with experiences of domestic abuse among sheltered individuals in Los Angeles County? Additionally, are there variations in this relationship based on demographic factors such as age, race and gender?
+How are differences in age, race, and gender dynamics linked to variations in experiences of substance abuse among sheltered individuals in Los Angeles County, highlighting potential disparities in demographics and location?
 
 ### 
 
@@ -76,7 +72,7 @@ combined_data <- combined_data %>%
 
 grouped_subs_data <- combined_data %>% select(SPA_NAME, subsAbuseYes_ratio)
 
-geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/data/better.geojson", quiet = TRUE)
+geojson_data <- st_read("~/SheltredHomeless2023Survey/data/better.geojson", quiet = TRUE)
 merged_geojson_subs <- merge(geojson_data, grouped_subs_data, by = "SPA_NAME", all.x = TRUE)
 color_palette_subs <- viridis_pal()(nrow(merged_geojson_subs))
 

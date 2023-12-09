@@ -12,6 +12,7 @@
 -   [Installation](#installation)
 -   [Website Link](#website-link)
 
+
 ## Introduction 
 
 Understanding the demographics of homelessness in Los Angeles is crucial for specialized interventions and equitable resource allocation. It allows policymakers to create solutions to specific needs, especially for vulnerable populations. Beyond policy considerations, this understanding fosters empathy and informs careful decision-making, contributing to holistic and sustainable efforts to eradicate homelessness in Los Angeles County.

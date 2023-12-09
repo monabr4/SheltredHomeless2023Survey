@@ -14,9 +14,9 @@ library(plotly)
 
 
 #Import Data 
-Sheltered_Individuals <- read_csv("~/Desktop/SheltredHomeless2023Survey/data/[WORKING]2023-HMIS-Records-of-Sheltered-Individuals.csv")
+Sheltered_Individuals <- read_csv("~/SheltredHomeless2023Survey/data/[WORKING]2023-HMIS-Records-of-Sheltered-Individuals.csv")
 
-LA_County_Service_Planning_Area <- read_csv("~/Desktop/SheltredHomeless2023Survey/data/LA_County_Service_Planning_Area_(2012).csv")
+LA_County_Service_Planning_Area <- read_csv("~/SheltredHomeless2023Survey/data/LA_County_Service_Planning_Area_(2012).csv")
 
 #Run this file in the docuement with quiet=TRUE
 #geojson_data <- st_read("~/Desktop/SheltredHomeless2023Survey/data/better.geojson")
