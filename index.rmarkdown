@@ -23,6 +23,7 @@ source("raw_data.R")
 
 ```
 
+
 ## Homelessness in Los Angeles, California (2023)
 
 Understanding the demographics of homelessness in Los Angeles is crucial for specialized interventions and equitable resource allocation. It allows policymakers to create solutions to specific needs, especially for vulnerable populations. Beyond policy considerations, this understanding fosters empathy and informs careful decision-making, contributing to holistic and sustainable efforts to eradicate homelessness in Los Angeles County.
@@ -48,6 +49,7 @@ How are differences in age, race, and gender dynamics linked to variations in ex
 ### Service Planning Areas (SPA):
 
 In the United States, particularly in the state of California, Service Planning Areas (SPAs) are geographical regions used for planning and organizing health and social services. These areas are designed to help allocate resources and coordinate services effectively. For example, in Los Angeles County, California, there are eight Service Planning Areas, each responsible for planning and delivering health and social services to the residents within its boundaries.
+
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE,include=TRUE}
 
@@ -94,6 +96,7 @@ leaflet() %>%
 
 ```
 
+
 <br>
 
 In addressing homelessness, substance abuse, and domestic violence, Service Planning Areas (SPAs) help divide and identify which areas in Los Angeles need services.
@@ -110,15 +113,19 @@ In addressing homelessness, substance abuse, and domestic violence, Service Plan
 
 <title>Example of Substance Abuse Graphs</title>
 
+
 ```{=html}
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 ```
+
 ```{=html}
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 ```
+
 ```{=html}
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 ```
+
 ```{=html}
 <style>
     .tab-content {
@@ -126,6 +133,7 @@ In addressing homelessness, substance abuse, and domestic violence, Service Plan
     }
   </style>
 ```
+
 </head>
 
 <body>
@@ -140,6 +148,7 @@ In addressing homelessness, substance abuse, and domestic violence, Service Plan
 </ul>
 
 ::: {#Age .tab-content}
+
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(plotly)
 
@@ -160,10 +169,12 @@ fig_substanceAbuse
 
 ```
 
+
 Findings: The analysis of substance abuse prevalence among sheltered individuals in Los Angeles County reveals significant racial disparities. Approximately 60.3% of Whites report experiencing some form of substance abuse, indicating a substantial impact within this racial group. In comparison, 33% of Blacks also report substance abuse.
 :::
 
 ::: {#Gender .tab-content}
+
 ```{r, echo=FALSE, warning=FALSE}
 
 merged_data <- na.omit(merged_data)
@@ -190,12 +201,14 @@ ggplot(percentages, aes(x = factor(male), y = percentage, fill = factor(male))) 
 
 ```
 
+
 Findings: The analysis of substance abuse among sheltered individuals in Los Angeles County shows a gender disparity. Of those experiencing substance abuse, 69% identify as male, while 31% identify as female.
 :::
 :::
 
 ```         
 ```
+
 
 ```{=html}
 <script>
@@ -229,6 +242,7 @@ Findings: The analysis of substance abuse among sheltered individuals in Los Ang
 
 </script>
 ```
+
 </body>
 
 </html>
@@ -240,3 +254,4 @@ Findings: The analysis of substance abuse among sheltered individuals in Los Ang
 [Survey of Sheltered Individuals Living in Los Angeles County (2023)](https://economicrt.org/publication/los-angeles-county-homeless-count-data-library/)
 
 For further analysis, view the full study report here: \[Download the PDF Report\]
+

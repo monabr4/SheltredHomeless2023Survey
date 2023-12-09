@@ -119,7 +119,7 @@ fig_substanceAbuse
 
 ```
 
-The analysis of substance abuse prevalence among sheltered individuals in Los Angeles County reveals significant racial disparities. Approximately 60.3% of Whites report experiencing some form of substance abuse, indicating a substantial impact within this racial group. In comparison, 33% of Blacks also report substance abuse experiences.
+The analysis of substance abuse prevalence among sheltered individuals in Los Angeles County reveals significant racial disparities. Approximately 60.3% of Whites report experiencing some form of substance abuse, indicating a substantial impact within this racial group. In comparison, 33% of Blacks also report substance abuse.
 
 ### Gender: How does gender influence the experiences of homelessness and the impact of domestic abuse?
 
