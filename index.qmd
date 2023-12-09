@@ -7,6 +7,7 @@ output:
         toc: TRUE
         toc_float: TRUE
 ---
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
 library(ggplot2)
@@ -33,7 +34,7 @@ The 2023 dataset from LAHSA exclusively focuses on sheltered individuals in Los 
 ### Research Questions:
 
 \
-The research questions aim to explore the intersection of domestic abuse and substance abuse, stratified by age, race, and gender. By examining age-specific trends, racial variations, and gender variations, we seek to inform targeted interventions that address the unique challenges faced by different sub-populations. This research is essential for the development of inclusive support systems at the intersection of domestic and substance abuse.\
+The research questions aim to explore the intersection of domestic abuse and substance abuse, stratified by age, race, and gender. By examining age-specific trends, racial variations, and gender variations, we seek to inform targeted interventions that address the unique challenges faced by different sub-populations. This research is essential for the development of inclusive support systems at the intersection of domestic and substance abuse for those who experience homelessness.\
 \
 \
 **Domestic Abuse and Homelessness:**
@@ -48,12 +49,13 @@ How are differences in age, race, and gender dynamics linked to variations in ex
 
 How does the presence of substance abuse correlate with experiences of domestic abuse among sheltered individuals in Los Angeles County? Additionally, are there variations in this relationship based on demographic factors such as age, race and gender?
 
-### Service Planning Areas (SPA):
+### 
 
+### Service Planning Areas (SPA):
 
 In the United States, particularly in the state of California, Service Planning Areas (SPAs) are geographical regions used for planning and organizing health and social services. These areas are designed to help allocate resources and coordinate services effectively. For example, in Los Angeles County, California, there are eight Service Planning Areas, each responsible for planning and delivering health and social services to the residents within its boundaries.
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE,include=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE,include=TRUE}
 
 grouped_2 <- merged_data %>%
   group_by(SPA_NAME) %>%
@@ -98,12 +100,164 @@ leaflet() %>%
 
 ```
 
-
-
 In addressing homelessness, substance abuse, and domestic violence, Service Planning Areas (SPAs) help divide and identify which areas in Los Angeles need services.
+
+### Example of Substance Abuse Graphs
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Example of Substance Abuse Graphs</title>
+
+```{=html}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+```
+```{=html}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+```
+```{=html}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+```
+```{=html}
+<style>
+    .tab-content {
+      display: none;
+    }
+  </style>
+```
+</head>
+
+<body>
+
+::: {#tabs}
+<ul>
+
+<li><a href="#Age">Age</a></li>
+
+<li><a href="#Gender">Gender</a></li>
+
+<li><a href="#Race">Race</a></li>
+
+</ul>
+
+::: {#Age .tab-content}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+filtered_data <- merged_data %>%
+  filter(!is.na(subsAbuse_type) & subsAbuse_type != "None")
+
+grouped_data <- filtered_data %>%
+  group_by(subsAbuse_type, age_catb) %>%
+  summarise(count = n())
+
+bar_chart <- ggplot(grouped_data, aes(x = age_catb, y = count/sum(count), fill = subsAbuse_type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = scales::percent(count/sum(count))),
+            position = position_dodge(width = 0.9), vjust = -0.5, size = 3, hjust = 0.5) +
+  labs(title = "Percent of Substance Abuse Types by Age Category",
+       x = "Age Category",
+       y = "Percent (%)",
+       fill = "Substance Abuse Type") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(bar_chart)
+
+```
+:::
+
+::: {#Gender .tab-content}
+```{r, echo=FALSE, warning=FALSE}
+
+merged_data <- na.omit(merged_data)
+substance_abuse_data <- merged_data[merged_data$subsAbuse_type != "None", ]
+
+percentages <- substance_abuse_data %>%
+  group_by(male) %>%
+  summarise(percentage = n() / nrow(substance_abuse_data) * 100)
+
+
+ggplot(percentages, aes(x = factor(male), y = percentage, fill = factor(male))) +
+  geom_bar(stat = "identity") +
+  labs(title = "Gender Distribution Among Individuals Experiencing Substance Abuse",
+       x = "Gender",
+       y = "Percentage",
+       fill = "Gender") +
+  scale_fill_manual(values = c("0" = "purple", "1" = "darkgreen"),
+                    name = "Gender",
+                    labels = c("Female", "Male")) +
+  geom_text(aes(label = paste0(round(percentage), "%")),
+            position = position_stack(vjust = 0.5),
+            size = 3) + 
+  scale_x_discrete(labels = c("0" = "Female", "1" = "Male"))
+```
+:::
+
+::: {#Race .tab-content}
+```{r, echo=FALSE, warning=FALSE, message= FALSE}
+proportions_substanceAbuse <- merged_data %>%
+  filter(!is.na(subsAbuse_type) & subsAbuse_type != "None") %>%
+  group_by(race_nofa) %>%
+  summarise(percentage_substanceAbuse = n() / nrow(merged_data) * 100)
+
+
+fig_substanceAbuse <- plot_ly(proportions_substanceAbuse, labels = ~race_nofa, values = ~percentage_substanceAbuse, type = "pie",
+                              textinfo = "label+percent", insidetextorientation = "radial") %>%
+  layout(title = list(text = "Substance Abuse Distribution by Race", y = 0.9),
+         margin = list(l = 10, r = 10, b = 50, t = 80))
+
+fig_substanceAbuse
+```
+:::
+:::
+
+```         
+```
+
+```{=html}
+<script>
+
+  function showTab(tabId) {
+    $(".tab-content").hide();
+    $(tabId).show();
+  }
+
+  $(function () {
+    $("#tabs").tabs();
+  });
+
+  Plotly.newPlot('plot1', [{
+    x: [1, 2, 3],
+    y: [10, 11, 12],
+    type: 'bar'
+  }]);
+
+  Plotly.newPlot('plot2', [{
+    x: [1, 2, 3],
+    y: [20, 21, 22],
+    type: 'bar'
+  }]);
+
+  Plotly.newPlot('plot3', [{
+    x: [1, 2, 3],
+    y: [30, 31, 32],
+    type: 'pie'
+  }]);
+
+</script>
+```
+</body>
+
+</html>
 
 ### Data Sources:
 
 [Los Angeles Country SPA and CSV Data](https://hub.arcgis.com/datasets/e9134f735c0c473d8156f4703a687ce9/explore?location=33.954160%2C-118.298576%2C9.56)
 
 [Survey of Sheltered Individuals Living in Los Angeles County (2023)](https://economicrt.org/publication/los-angeles-county-homeless-count-data-library/)
+
+For further analysis, view the full study report here: \[Download the PDF Report\]
