@@ -23,36 +23,40 @@ This research project aims to explore the intersection of domestic abuse and sub
 
 ## Project Structure 
 
--   `__quarto.yml` : website's skeleton
 
--   `2023_Homeless_Data_Project.``proj` : R project folder
 
--   `about_the_data.qmd` : code for about the data tab on the website
+## Folders
 
--   **Folder: data**
+- **data**
+  - `[WORKING]2023-HMIS-Records-of_Sheltered-Individuals`
+  - `Better.geojson`
+  - `LA_County_Service_Planning_Area_(2012).csv`
+  - `LA_County_Service_Planning_Area_(2012).shp`
 
-    -   `[WORKING]2023-HMIS-Records-of_Sheltered-Individuals`
-    -   `Better.geojson`
-    -   `LA_County_Service_Planning_Area_(2012).csv`
-    -   `LA_County_Service_Planning_Area_(2012).shp`
+- **docs**
+Include all the meta data for the website
 
--   **Folder: docs**
+- **images**
 
--   `domestic_violence.qmd` : code for the domestic violence tab on the website
 
--   **Folder: graphs:** include static images of the coded graphs
+## Files
 
--   **Folder: images:** includes images on the website
+- `.gitignore`
+- `.DS_store`
+- `__quarto.yml`
+- `about_the_data.qmd`: code for about_the_data tab
+- `domestic_violence.qmd`: code for the Domestic Violence tab
+- `Index.qmd` : code for the home page of the website
+- `Index.markdown` (Placeholder)
+- `raw_data.R` : data cleaning code
+- `Styles.css` : code for website design
+- `substance_abuse.qmd`: code for the Substance Abuse tab
 
--   `Index.qmd` : code for the home page of the website
+## Additional Information
 
--   `raw_data.R` : data cleaning code
+- `README.md` : The document you are currently reading
+-`survey_data_2923.pdf1`: written report
 
--   `README.md` : the document that you are currently reading
-
--   `Styles.css` : code for website design
-
--   `substance_abuse.qmd` : code for the substance abuse tab on the website
 
 ## Prerequisites 
 
@@ -71,6 +75,44 @@ You can install these packages using the following R commands:
 \`\`\`
 R install.packages(c("dplyr", "ggplot2", "plotly", "leaflet", "sf", "viridis", "magrittr"))
 \`\`\`
+
+
+
+
+## Cloning the Repository
+
+To get started with this project, follow the steps below to clone the repository to your local machine.
+
+
+### Cloning the Repository
+
+1. **Open a Terminal or Command Prompt:**
+   Open a terminal or command prompt on your computer.
+
+2. **Navigate to Your Desired Directory:**
+   Use the `cd` command to navigate to the directory where you want to clone the repository.
+
+    ```bash
+    cd path/to/your/directory
+    ```
+
+3. **Clone the Repository:**
+   Run the following command to clone the repository.
+
+    ```bash
+    git clone repository_url
+    ```
+
+   Replace `repository_url` with the actual URL of the repository. You can find the URL on the repository's webpage.
+
+    ```bash
+    git clone https://github.com/username/repository.git
+    ```
+
+4. **Verification:**
+   Once the cloning process is complete, you'll have a local copy of the repository in the specified directory.
+
+
 
 ## Website Link 
 

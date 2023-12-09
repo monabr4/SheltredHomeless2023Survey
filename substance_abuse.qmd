@@ -89,7 +89,7 @@ print(bar_chart23)
 
 ```
 
-Among those aged 18-24, drug abuse is the highest, overall substance abuse is the lowest in this age group. For individuals between the ages of 25-54, nearly 30% report the concurrent abuse of drugs and alcohol, while approximately 25.4% specifically report drug abuse. In the 55-61 age category, the percent abuse of both substances is 5.7% among those disclosing substance abuse. In the oldest category (62+), alcohol abuse is the most common type of substance abuse.
+Among those aged 18-24, drug abuse is the highest, overall substance abuse is the lowest in this age group. For individuals between the ages of 25-54, nearly 30% report the concurrent abuse of drugs and alcohol, while approximately 25.4% specifically report drug abuse. In the 55-61 age category, the percent abuse of both substances is 5.7% among those disclosing substance abuse. In the oldest category (62+), alcohol abuse is the most common type of substance abuse. Those who are under 18 and report that they abuse substances, but not specify what type are graphed to the right of the plot.
 
 ### Race: How does the presence of substance abuse differ among various racial groups?
 
