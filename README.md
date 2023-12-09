@@ -55,7 +55,7 @@ Include all the meta data for the website
 ## Additional Information
 
 - `README.md` : The document you are currently reading
--`survey_data_2923.pdf1`: written report
+- `survey_data_2923.pdf1`: written report
 
 
 ## Prerequisites 
