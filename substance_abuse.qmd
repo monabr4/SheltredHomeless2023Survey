@@ -64,18 +64,18 @@ Analyzing substance abuse percentages across Service Planning Agencies (SPA) sho
 ### Age: Are there age-related differences in the prevalence of substance abuse among homeless individuals?
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE,include=TRUE}
-
 fd <- merged_data %>%
   filter(!is.na(subsAbuse_type) & subsAbuse_type != "None")
 
-grouped_data <- fd %>%
+gds <- fd %>%
   group_by(subsAbuse_type, age_catb) %>%
   summarise(count = n())
 
-bar_chart23 <- ggplot(grouped_data, aes(x = age_catb, y = count/sum(count), fill = subsAbuse_type)) +
+bar_chart23 <- ggplot(gds, aes(x = age_catb, y = count/sum(count), fill = subsAbuse_type)) +
   geom_bar(stat = "identity", position = "dodge") +
-  geom_text(aes(label = scales::percent(count/sum(count))),
-            position = position_dodge(width = 0.9), vjust = -0.5, size = 3, hjust = 0.5) +
+  geom_text(aes(label = paste0(round(count/sum(count) * 100, 1), "%")),
+            position = position_dodge(width = 0.8), vjust = -0.5, size = 3, hjust = 0.5,
+            arrow = arrow(type = "closed", angle = 20, length = unit(0.1, "inches"))) +  
   labs(title = "Percent of Substance Abuse Types by Age Category",
        x = "Age Category",
        y = "Percent (%)",
@@ -85,30 +85,41 @@ bar_chart23 <- ggplot(grouped_data, aes(x = age_catb, y = count/sum(count), fill
 
 print(bar_chart23)
 
+
+
 ```
 
-Among those aged 18-24, drug abuse is the highest, overall substance abuse is the lowest in this age group. For individuals between the ages of 25-54, nearly 30% report the concurrent abuse of drugs and alcohol, while approximately 24% specifically report drug abuse. In the 55-61 age category, the percent abuse of both substances is 5.94% among those disclosing substance abuse. In the oldest category (62+), alcohol abuse is the most common type of substance abuse.
+Among those aged 18-24, drug abuse is the highest, overall substance abuse is the lowest in this age group. For individuals between the ages of 25-54, nearly 30% report the concurrent abuse of drugs and alcohol, while approximately 25.4% specifically report drug abuse. In the 55-61 age category, the percent abuse of both substances is 5.7% among those disclosing substance abuse. In the oldest category (62+), alcohol abuse is the most common type of substance abuse.
 
 ### Race: How does the presence of substance abuse differ among various racial groups?
 
 ```{r, echo=FALSE, warning=FALSE}
+
+library(plotly)
+library(plotly)
+
+merged_data$race_nofa <- factor(merged_data$race_nofa)
+
+
 proportions_substanceAbuse <- merged_data %>%
-  filter(!is.na(subsAbuse_type) & subsAbuse_type != "None") %>%
+  filter(!is.na(subsAbuse_type) & subsAbuse_type != "None" & !is.na(race_nofa)) %>%
   group_by(race_nofa) %>%
   summarise(percentage_substanceAbuse = n() / nrow(merged_data) * 100)
-
 
 fig_substanceAbuse <- plot_ly(proportions_substanceAbuse, labels = ~race_nofa, values = ~percentage_substanceAbuse, type = "pie",
                               textinfo = "label+percent", insidetextorientation = "radial") %>%
   layout(title = list(text = "Substance Abuse Distribution by Race", y = 0.9),
-         margin = list(l = 10, r = 10, b = 50, t = 80))
-
+         margin = list(l = 100, r = 160, b = 160, t = 1), 
+         legend = list(x = 1.1, y = 0.5))  
 fig_substanceAbuse
+
+
+
 
 
 ```
 
-The analysis of substance abuse prevalence among sheltered individuals in Los Angeles County reveals significant racial disparities. Approximately 60.1% of Whites report experiencing some form of substance abuse, indicating a substantial impact within this racial group. In comparison, 33.3% of Blacks also report substance abuse experiences.
+The analysis of substance abuse prevalence among sheltered individuals in Los Angeles County reveals significant racial disparities. Approximately 60.3% of Whites report experiencing some form of substance abuse, indicating a substantial impact within this racial group. In comparison, 33% of Blacks also report substance abuse experiences.
 
 ### Gender: How does gender influence the experiences of homelessness and the impact of domestic abuse?
 
@@ -142,4 +153,4 @@ The analysis of substance abuse among sheltered individuals in Los Angeles Count
 
 ### Conclusion:
 
-Substance abuse often makes it harder for homeless individuals to find stable housing, creating a tough situation that's difficult to break out of. It is important to identify which populations are most affected and to create a plan to solve this public health issue. Our findings suggest that those who are in the age range 25-54 experience are at a higher risk of abusing substances. Among those who experience substance abuse, 60.1% are white, 69% are male. East SPA (ex. City of Commerce, Bell Garden, Cerritos, etc.) has the highest percentage (40.86%) of individuals living in that SPA experiencing substance abuse. Understanding the demographics can help provide policy makers, nonprofits, the general public and more to create substance abuse prevention plans for different sub-populations.
+Substance abuse often makes it harder for homeless individuals to find stable housing, creating a tough situation that's difficult to break out of. It is important to identify which populations are most affected and to create a plan to solve this public health issue. Our findings suggest that those who are in the age range 25-54 experience are at a higher risk of abusing substances. Among those who experience substance abuse, 60.3% are white, 69% are male. East SPA (ex. City of Commerce, Bell Garden, Cerritos, etc.) has the highest percentage (40.86%) of individuals living in that SPA experiencing substance abuse. Understanding the demographics can help provide policy makers, nonprofits, the general public and more to create substance abuse prevention plans for different sub-populations.

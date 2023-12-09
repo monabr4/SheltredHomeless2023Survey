@@ -139,22 +139,26 @@ In addressing homelessness, substance abuse, and domestic violence, Service Plan
 
 ::: {#Age .tab-content}
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(plotly)
+
+merged_data$race_nofa <- factor(merged_data$race_nofa)
+
+
 proportions_substanceAbuse <- merged_data %>%
-  filter(!is.na(subsAbuse_type) & subsAbuse_type != "None") %>%
+  filter(!is.na(subsAbuse_type) & subsAbuse_type != "None" & !is.na(race_nofa)) %>%
   group_by(race_nofa) %>%
   summarise(percentage_substanceAbuse = n() / nrow(merged_data) * 100)
-
 
 fig_substanceAbuse <- plot_ly(proportions_substanceAbuse, labels = ~race_nofa, values = ~percentage_substanceAbuse, type = "pie",
                               textinfo = "label+percent", insidetextorientation = "radial") %>%
   layout(title = list(text = "Substance Abuse Distribution by Race", y = 0.9),
-         margin = list(l = 10, r = 10, b = 50, t = 80))
-
+         margin = list(l = 200, r = 100, b = 100, t = 100), 
+         legend = list(x = 1.3, y = 0.01))  
 fig_substanceAbuse
 
 ```
 
-Findings: The analysis of substance abuse prevalence among sheltered individuals in Los Angeles County reveals significant racial disparities. Approximately 60.1% of Whites report experiencing some form of substance abuse, indicating a substantial impact within this racial group. In comparison, 33.3% of Blacks also report substance abuse experiences.
+Findings: The analysis of substance abuse prevalence among sheltered individuals in Los Angeles County reveals significant racial disparities. Approximately 60.3% of Whites report experiencing some form of substance abuse, indicating a substantial impact within this racial group. In comparison, 33% of Blacks also report substance abuse experiences..
 :::
 
 ::: {#Gender .tab-content}

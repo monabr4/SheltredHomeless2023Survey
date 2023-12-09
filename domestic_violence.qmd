@@ -97,13 +97,14 @@ This graph shows age-related differences in the percentage of domestic abuse amo
 
 #### 
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
 library(plotly)
+
 merged_data$race_nofa <- factor(merged_data$race_nofa)
 
 proportions_domViol <- merged_data %>%
-  filter(!is.na(domViol) & domViol == "Yes" ) %>%
+  filter(!is.na(domViol) & domViol == "Yes" & !is.na(race_nofa)) %>%
   group_by(race_nofa) %>%
   summarise(proportion_domViol = n() / nrow(merged_data[merged_data$domViol == "Yes", ]))
 
@@ -118,9 +119,10 @@ fig_domViol <- plot_ly(labels = ~proportions_domViol$race_nofa, values = ~propor
 fig_domViol
 
 
+
 ```
 
-The analysis of domestic abuse prevalence among sheltered individuals in Los Angeles County reveals distinct racial disparities. Approximately 42% of Blacks and 50.3% of Whites report experiencing domestic abuse. The remaining racial and ethnic groups represent less than 7.7% of those experiencing domestic abuse.
+The analysis of domestic abuse prevalence among sheltered individuals in Los Angeles County reveals distinct racial disparities. Approximately 40.9% of Blacks and 51.3% of Whites report experiencing domestic abuse. The remaining racial and ethnic groups represent less than 10.4% of those experiencing domestic abuse.
 
 ### 
 
@@ -158,4 +160,4 @@ The bar graph provides a representation of the gender distribution among those f
 
 ### Conclusion:
 
-Homelessness and domestic violence can intersect, as individuals feeling abusive homes may find themselves without shelter, making it difficult to escape violence. Also, those who face homelessness may be at highest risk of domestic violence. Among those who experience domestic violence, 72% are females, 42% are black, 50.3% are white, and 65% are between the ages of 25 and 54. SPA Antelope Valley (ex. Palmdale and Lancaster, etc.) has the highest percentage (23.4%) of individuals living in that SPA experiencing domestic violence abuse. Understanding the demographics can help  provide policy makers,  nonprofits, the general public and more to create domestic violence intervention plans for different subpopulations.
+Homelessness and domestic violence can intersect, as individuals feeling abusive homes may find themselves without shelter, making it difficult to escape violence. Also, those who face homelessness may be at highest risk of domestic violence. Among those who experience domestic violence, 72% are females, 40.9% are black, 51.3% are white, and 65% are between the ages of 25 and 54. SPA Antelope Valley (ex. Palmdale and Lancaster, etc.) has the highest percentage (23.4%) of individuals living in that SPA experiencing domestic violence abuse. Understanding the demographics can help provide policy makers,  nonprofits, the general public and more to create domestic violence intervention plans for different subpopulation.
