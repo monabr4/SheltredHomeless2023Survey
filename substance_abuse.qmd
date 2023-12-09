@@ -17,21 +17,20 @@ source("raw_data.R")
 
 [![Source: www.wellmark.com](images/Substance-Abuse-During-COVID-19.png)](https://www.wellmark.com/blue/healthy-living/the-pandemics-deadly-affect-on-substance-abuse)
 
-
 ### The percentage of those who abuse substances by Service Planning Agencies (SPA).
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-grouped_2 <- merged_data %>%
+g1 <- merged_data %>%
   group_by(SPA_NAME) %>%
   summarise(denominator = n())
 
-grouped_1 <- merged_data %>%
+g2 <- merged_data %>%
   filter(!is.na(subsAbuse_type) & subsAbuse_type != "None") %>%
   group_by(SPA_NAME) %>%
   summarise(
     numerator = n()
   )
-combined_data <- left_join(grouped_2, grouped_1, by = "SPA_NAME")
+combined_data <- left_join(g1, g2, by = "SPA_NAME")
 combined_data <- tidyr::replace_na(combined_data, list(numerator = 0, denominator = 0))
 
 combined_data <- combined_data %>%
@@ -66,14 +65,14 @@ Analyzing substance abuse percentages across Service Planning Agencies (SPA) sho
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE,include=TRUE}
 
-filtered_data <- merged_data %>%
+fd <- merged_data %>%
   filter(!is.na(subsAbuse_type) & subsAbuse_type != "None")
 
-grouped_data <- filtered_data %>%
+grouped_data <- fd %>%
   group_by(subsAbuse_type, age_catb) %>%
   summarise(count = n())
 
-bar_chart <- ggplot(grouped_data, aes(x = age_catb, y = count/sum(count), fill = subsAbuse_type)) +
+bar_chart23 <- ggplot(grouped_data, aes(x = age_catb, y = count/sum(count), fill = subsAbuse_type)) +
   geom_bar(stat = "identity", position = "dodge") +
   geom_text(aes(label = scales::percent(count/sum(count))),
             position = position_dodge(width = 0.9), vjust = -0.5, size = 3, hjust = 0.5) +
@@ -84,7 +83,7 @@ bar_chart <- ggplot(grouped_data, aes(x = age_catb, y = count/sum(count), fill =
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-print(bar_chart)
+print(bar_chart23)
 
 ```
 

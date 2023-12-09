@@ -19,7 +19,7 @@ Sheltered_Individuals <- read_csv("~/SheltredHomeless2023Survey/data/[WORKING]20
 LA_County_Service_Planning_Area <- read_csv("~/SheltredHomeless2023Survey/data/LA_County_Service_Planning_Area_(2012).csv")
 
 #Run this file in the docuement with quiet=TRUE
-#geojson_data <- st_read("~/SheltredHomeless2023Survey/data/better.geojson")
+geojson_data <- st_read("~/SheltredHomeless2023Survey/data/better.geojson")
 
 
 
